@@ -15,7 +15,7 @@ class CommonBeanProcessor implements BeanPostProcessor
         //注入前置和后置操作
         $proxyBean = new DynamicProxy($bean);
         $config =  Config::getConfig('HookConfig.php');
-        $proxyBean = $this->injectInspect($config,$proxyBean);
+        $proxyBean = $this->injectInspect($beanName,$config,$proxyBean);
         return $proxyBean;
     }
 
@@ -32,7 +32,7 @@ class CommonBeanProcessor implements BeanPostProcessor
      * @return mixed
      * @throws \ReflectionException
      */
-    private function injectInspect($config,$proxyBean){
+    private function injectInspect($beanName,$config,$proxyBean){
         foreach ($config as $hookBeanName => $classPath){
             if($beanName == $hookBeanName){
                 $clazz = new \ReflectionClass($classPath);
